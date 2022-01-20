@@ -2,12 +2,32 @@ import { Card } from "antd";
 import { Typography } from "antd";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
+import { Credentials, getCSRF, login } from "../http/auth";
 const { Title, Paragraph } = Typography;
 
 function LoginPage() {
-  function handleFinish(values: any) {
-    console.log("Received values of form: ", values);
+
+  async function performLoginRequest (credentials: Credentials) {
+    try {
+      await getCSRF()
+      const loginResponse = await login(credentials);
+      return loginResponse 
+    } catch (error) {
+      console.warn("Erro ao logar");
+      console.warn(error);
+      return null
+    }
+  }
+
+  async function handleFinish(form: any) {
+    const loginResponse = await performLoginRequest({ 
+      email: form.email, 
+      password: form.password 
+    })
+
+    if (loginResponse) {
+      console.log(loginResponse);
+    }
   }
 
   return (
@@ -25,7 +45,7 @@ function LoginPage() {
             onFinish={handleFinish}
           >
             <Form.Item
-              name="username"
+              name="email"
               rules={[
                 { required: true, message: "Please input your Username!" },
               ]}
