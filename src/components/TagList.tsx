@@ -1,7 +1,8 @@
 import * as React from "react";
 import { List, ListProps, Typography, Button, Row, Col } from "antd";
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from "@ant-design/icons";
 import TagListItem from "./TagListItem";
+import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 export interface Tag {
@@ -27,6 +28,7 @@ export function TagList({ header = <TagListHeader />, tags }: TagListProps) {
 }
 
 function TagListHeader() {
+  const navigate = useNavigate();
   return (
     <Row align="middle">
       <Col flex="auto">
@@ -35,7 +37,13 @@ function TagListHeader() {
         </Title>
       </Col>
       <Col>
-        <Button type="dashed" icon={<PlusOutlined />}>Add New Tag</Button>
+        <Button
+          type="dashed"
+          icon={<PlusOutlined />}
+          onClick={() => navigate("new")}
+        >
+          Add New Tag
+        </Button>
       </Col>
     </Row>
   );
