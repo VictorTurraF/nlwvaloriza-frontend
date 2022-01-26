@@ -3,9 +3,12 @@ import { Typography } from "antd";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Credentials, getCSRF, login } from "../http/auth";
+import { useNavigate } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 function LoginPage() {
+
+  const navigate = useNavigate()
 
   async function performLoginRequest (credentials: Credentials) {
     try {
@@ -25,8 +28,8 @@ function LoginPage() {
       password: form.password 
     })
 
-    if (loginResponse) {
-      console.log(loginResponse);
+    if (loginResponse && loginResponse.status === 204) {
+      navigate('/panel/users')
     }
   }
 
