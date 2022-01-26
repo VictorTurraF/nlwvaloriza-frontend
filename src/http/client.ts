@@ -6,6 +6,7 @@ const defaultClientConfig: AxiosRequestConfig = {
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    "Accept": "application/json"
   },
 };
 
