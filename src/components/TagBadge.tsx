@@ -5,15 +5,12 @@ export interface TagBadgeProps extends TagProps {}
 
 function TagBadge({ children, color, ...rest }: TagBadgeProps) {
   const hexaColorPattern = /^#[a-f0-9]{3,8}$/gi;
-  // const colorHandler = Color(color);
 
   const borderColor = Color(color)
     .darken(0.05)
     .saturate(-0.1)
     .hsl()
     .string();
-
-  console.log(borderColor);
 
   if (hexaColorPattern.test(color || "")) {
     return (
