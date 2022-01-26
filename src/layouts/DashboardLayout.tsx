@@ -1,13 +1,9 @@
 import * as React from "react";
-import { Layout, Menu } from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  TeamOutlined,
-  RocketOutlined,
-  TagOutlined,
-} from "@ant-design/icons";
-const { Header, Sider, Content } = Layout;
+import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
+import HeaderLayout from "./HeaderLayout";
+import SidebarLayout from "./SidebarLayout";
+const { Content } = Layout;
 
 export interface DashboardLayoutProps extends React.HTMLProps<HTMLDivElement> {}
 
@@ -18,38 +14,12 @@ function DashboardLayout({ children, ...divProps }: DashboardLayoutProps) {
     setCollpased(() => !collapsed);
   }
 
-  const menuConfig = {
-    className: "trigger",
-    onClick: toggle,
-  };
-
   return (
     <div {...divProps} id="components-layout-demo-custom-trigger">
       <Layout className="layout-wrapper">
-        <Sider trigger={null} collapsible collapsed={collapsed}>
-          <a href="/about" className="logo">
-            <img src="assets/logo.svg" alt="logo" />
-          </a>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-            <Menu.Item key="1" icon={<TeamOutlined />}>
-              Users
-            </Menu.Item>
-            <Menu.Item key="2" icon={<RocketOutlined />}>
-              Compliments
-            </Menu.Item>
-            <Menu.Item key="3" icon={<TagOutlined />}>
-              Tags
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        <SidebarLayout collapsed={collapsed} />
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-            {collapsed ? (
-              <MenuUnfoldOutlined {...menuConfig} />
-            ) : (
-              <MenuFoldOutlined {...menuConfig} />
-            )}
-          </Header>
+          <HeaderLayout toggle={toggle} collapsed={collapsed} />
           <Content
             className="site-layout-background"
             style={{
@@ -58,7 +28,7 @@ function DashboardLayout({ children, ...divProps }: DashboardLayoutProps) {
               minHeight: 280,
             }}
           >
-            {children}
+            <Outlet />
           </Content>
         </Layout>
       </Layout>
