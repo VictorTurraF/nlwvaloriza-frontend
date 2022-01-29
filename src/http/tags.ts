@@ -1,7 +1,16 @@
 import { client } from "./client";
 
-function listAll () {
-  return client.get('/api/tags');
+export interface TagCreateRequest {
+  name: string;
+  color: string;
 }
 
-export { listAll }
+function listAll() {
+  return client.get("/api/tags");
+}
+
+function create(tag: TagCreateRequest) {
+  return client.post("/api/tags", tag);
+}
+
+export { listAll, create };
