@@ -1,7 +1,7 @@
 import { Space } from "antd";
 import * as React from "react";
 import { Tag, TagList } from "../components/TagList";
-import { listAll } from "../http/tags";
+import * as tagsClient from "../http/tags";
 
 function TagsPage() {
   const [tags, setTags] = React.useState<Tag[]>();
@@ -9,7 +9,7 @@ function TagsPage() {
   React.useEffect(() => {
     async function performTagsListingRequest() {
       try {
-        const response = await listAll();
+        const response = await tagsClient.listAll();
         return response.data.data;
       } catch (error) {
         console.warn("Erro ao listar tags");
