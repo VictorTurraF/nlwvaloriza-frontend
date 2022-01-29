@@ -12,7 +12,7 @@ function TagListItem({ tag }: TagListItemProps) {
       <Row>
         <Col span={12}>{tag.name}</Col>
         <Col span={12}>
-          <TagBadge color={'#eb2f96'}>{tag.hashtag}</TagBadge>
+          <TagBadge color={tag.color}>{tag.hashtag}</TagBadge>
         </Col>
       </Row>
     </List.Item>

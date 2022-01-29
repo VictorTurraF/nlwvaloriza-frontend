@@ -8,6 +8,7 @@ const { Title } = Typography;
 export interface Tag {
   name: string;
   hashtag: string;
+  color: string;
 }
 
 export interface TagListProps extends ListProps<Tag> {
