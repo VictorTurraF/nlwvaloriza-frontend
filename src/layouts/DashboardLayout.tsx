@@ -25,7 +25,8 @@ function DashboardLayout({ children, ...divProps }: DashboardLayoutProps) {
             style={{
               margin: "24px 16px",
               padding: 24,
-              minHeight: 280,
+              flex: '1 0 auto',
+              overflow: 'initial'
             }}
           >
             <Outlet />

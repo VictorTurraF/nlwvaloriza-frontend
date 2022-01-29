@@ -5,16 +5,24 @@ import { useNavigate } from "react-router-dom";
 const { Sider } = Layout;
 
 export interface SidebarLayoutProps {
-  collapsed: boolean
+  collapsed: boolean;
 }
 
-function SidebarLayout({ collapsed }: SidebarLayoutProps ) {
+function SidebarLayout({ collapsed }: SidebarLayoutProps) {
   const navigate = useNavigate();
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Sider
+      style={{
+        overflow: "auto",
+        height: "100vh",
+      }}
+      trigger={null}
+      collapsible
+      collapsed={collapsed}
+    >
       <a href="/about" className="logo">
-        <img src="assets/logo.svg" alt="logo" />
+        <img src="/assets/logo.svg" alt="logo" />
       </a>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
         <Menu.Item
