@@ -18,7 +18,7 @@ function DashboardLayout({ children, ...divProps }: DashboardLayoutProps) {
     <div {...divProps} id="components-layout-demo-custom-trigger">
       <Layout className="layout-wrapper">
         <SidebarLayout collapsed={collapsed} />
-        <Layout className="site-layout">
+        <Layout style={{ height: '100vh', overflowY: 'scroll' }} className="site-layout">
           <HeaderLayout toggle={toggle} collapsed={collapsed} />
           <Content
             className="site-layout-background"
