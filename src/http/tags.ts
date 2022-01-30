@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import { client } from "./client";
 
 export interface TagCreateRequest {
@@ -5,8 +6,8 @@ export interface TagCreateRequest {
   color: string;
 }
 
-function listAll() {
-  return client.get("/api/tags");
+function listAll(config: AxiosRequestConfig) {
+  return client.get("/api/tags", config );
 }
 
 function create(tag: TagCreateRequest) {
