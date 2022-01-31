@@ -1,24 +1,31 @@
-import React, { createContext, useEffect, useState } from "react";
-import { Credentials } from "../http/auth";
+import { createContext, useEffect, useState } from "react";
+import { LoginCredentials } from "../http/auth";
 import * as authClient from "../http/auth";
 import Spinner from "../components/Spinner";
 import { HTMLElement } from "../types/components";
+import { message } from "antd";
 
 interface AuthContextData {
   user: object | null;
   isLogged: boolean;
-  signIn: (credentials: Credentials) => Promise<boolean>;
+  signIn: (credentials: LoginCredentials) => Promise<boolean>;
   signOut: () => void;
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<AuthContextData>(null!);
 
 function AuthProvider({ children }: HTMLElement) {
   const [user, setUser] = useState<Object | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  async function signIn(credentials: Credentials) {
-    const user = await authClient.newLogin(credentials);
+  
+  async function signIn(credentials: LoginCredentials) {
+    await authClient.getCSRF();
+    
+    const user = await authClient.signIn(credentials, {
+      onInvalidLogin: (response) => {
+        message.error(response.data.message);
+      },
+    });
 
     if (user) {
       setUser(user);
