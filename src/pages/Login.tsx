@@ -2,34 +2,31 @@ import { Card } from "antd";
 import { Typography } from "antd";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Credentials, getCSRF, login } from "../http/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 const { Title, Paragraph } = Typography;
 
 function LoginPage() {
+  const [isSigning, setIsSigning] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signIn } = useAuth();
 
-  const navigate = useNavigate()
-
-  async function performLoginRequest (credentials: Credentials) {
-    try {
-      await getCSRF()
-      const loginResponse = await login(credentials);
-      return loginResponse 
-    } catch (error) {
-      console.warn("Erro ao logar");
-      console.warn(error);
-      return null
-    }
-  }
+  let from = (location.state as any)?.from?.pathname || "/panel/users";
 
   async function handleFinish(form: any) {
-    const loginResponse = await performLoginRequest({ 
-      email: form.email, 
-      password: form.password 
-    })
+    setIsSigning(true);
 
-    if (loginResponse && loginResponse.status === 204) {
-      navigate('/panel/users')
+    const logginSucceed = await signIn({
+      email: form.email,
+      password: form.password,
+    });
+
+    if (logginSucceed) {
+      navigate(from, { replace: true });
+    } else { 
+      setIsSigning(false);
     }
   }
 
@@ -80,12 +77,13 @@ function LoginPage() {
               </a>
             </Form.Item>
 
-            <Form.Item style={{ marginBottom: '0' }}>
+            <Form.Item style={{ marginBottom: "0" }}>
               <Button
                 type="primary"
                 htmlType="submit"
                 className="login-form-button"
                 size="large"
+                loading={isSigning}
               >
                 Log in
               </Button>
@@ -93,9 +91,12 @@ function LoginPage() {
           </Form>
         </div>
       </Card>
-      <Typography style={{ textAlign: 'center' }}>
+      <Typography style={{ textAlign: "center" }}>
         <Paragraph>
-          Don't have an account? <Button type="link" style={{ padding: '0' }}>Sign up</Button>
+          Don't have an account?{" "}
+          <Button type="link" style={{ padding: "0" }}>
+            Sign up
+          </Button>
         </Paragraph>
       </Typography>
     </div>
