@@ -4,14 +4,14 @@ import * as authClient from "../http/auth";
 import Spinner from "../components/Spinner";
 import { HTMLElement } from "../types/components";
 
-interface AuthContextProps {
-  user: Object;
+interface AuthContextData {
+  user: object | null;
   isLogged: boolean;
-  signIn: Promise<boolean>;
-  signOut: Promise<void>;
+  signIn: (credentials: Credentials) => Promise<boolean>;
+  signOut: () => void;
 }
 
-const AuthContext = createContext<AuthContextProps | {}>({});
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 function AuthProvider({ children }: HTMLElement) {
   const [user, setUser] = useState<Object | null>(null);
