@@ -1,27 +1,43 @@
 import { client } from "./client";
 
-export interface Credentials {
+export interface LoginCredentials {
   email: string;
   password: string;
 }
 
-function getCSRF() {
-  return client.get("/sanctum/csrf-cookie");
+export interface LoginCallbacks {
+  onInvalidLogin?: (response: any) => void;
+  onFailure?: (error: any, response: any) => void;
 }
 
-function login(credentials: Credentials) {
-  return client.post("/api/login", credentials);
-}
-
-async function newLogin(credentials: Credentials) {
+async function getCSRF() {
   try {
-    const { data } = await client.post("/api/login", credentials);
-    return data;
+    const response = await client.get("/sanctum/csrf-cookie");
+    return response;
   } catch (error) {
-    console.warn("Erro ao fazer login");
+    console.warn("Erro ao solicitar csrf token");
     console.warn(error);
     return null;
   }
 }
 
-export { login, newLogin, getCSRF };
+async function signIn(
+  credentials: LoginCredentials,
+  callbacks: LoginCallbacks = {}
+) {
+  try {
+    const response = await client.post("/api/login", credentials);
+    return response;
+  } catch (error: any) {
+    if (error.response.status === 400) {
+      callbacks?.onInvalidLogin && callbacks.onInvalidLogin(error.response);
+    } else {
+      console.warn("Erro ao fazer o login");
+      console.warn(error);
+      callbacks?.onFailure && callbacks.onFailure(error, error.response);
+    }
+    return null;
+  }
+}
+
+export { signIn, getCSRF };
