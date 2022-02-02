@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./contexts/AuthContext";
+import ProfilePage from "./pages/ProfilePage";
 
 const DashboardLayout = React.lazy(() => import("./layouts/DashboardLayout"));
 const LoginPage = React.lazy(() => import("./pages/Login"));
@@ -26,6 +27,7 @@ function App() {
                 </RequireAuth>
               }
             >
+              <Route path="me" element={<ProfilePage />} />
               <Route path="users" element={<UsersPage />} />
               <Route path="compliments" element={<ComplimentsPage />} />
               <Route path="tags">

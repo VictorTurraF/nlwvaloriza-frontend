@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Layout, Menu } from "antd";
-import { TeamOutlined, RocketOutlined, TagOutlined } from "@ant-design/icons";
+import { TeamOutlined, RocketOutlined, TagOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 const { Sider } = Layout;
 
@@ -25,6 +25,9 @@ function SidebarLayout({ collapsed }: SidebarLayoutProps) {
         <img src="/assets/logo.svg" alt="logo" />
       </a>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+        <Menu.Item onClick={() => navigate("me")} key="0" icon={<UserOutlined />}>
+          My Profile
+        </Menu.Item>
         <Menu.Item
           onClick={() => navigate("users")}
           key="1"
