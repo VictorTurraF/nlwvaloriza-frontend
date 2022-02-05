@@ -1,7 +1,12 @@
 import * as React from "react";
 import { Layout, Menu } from "antd";
-import { TeamOutlined, RocketOutlined, TagOutlined, UserOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import {
+  TeamOutlined,
+  RocketOutlined,
+  TagOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Link } from "react-router-dom";
 const { Sider } = Layout;
 
 export interface SidebarLayoutProps {
@@ -9,7 +14,28 @@ export interface SidebarLayoutProps {
 }
 
 function SidebarLayout({ collapsed }: SidebarLayoutProps) {
-  const navigate = useNavigate();
+  const navigationItems = [
+    {
+      text: "Users",
+      navigationPath: "users",
+      icon: <TeamOutlined />,
+    },
+    {
+      text: "My Profile",
+      navigationPath: "me",
+      icon: <UserOutlined />,
+    },
+    {
+      text: "Compliments",
+      navigationPath: "compliments",
+      icon: <RocketOutlined />,
+    },
+    {
+      text: "Tags",
+      navigationPath: "tags",
+      icon: <TagOutlined />,
+    },
+  ];
 
   return (
     <Sider
@@ -24,31 +50,17 @@ function SidebarLayout({ collapsed }: SidebarLayoutProps) {
       <a href="/about" className="logo">
         <img src="/assets/logo.svg" alt="logo" />
       </a>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-        <Menu.Item onClick={() => navigate("me")} key="0" icon={<UserOutlined />}>
-          My Profile
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => navigate("users")}
-          key="1"
-          icon={<TeamOutlined />}
-        >
-          Users
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => navigate("compliments")}
-          key="2"
-          icon={<RocketOutlined />}
-        >
-          Compliments
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => navigate("tags")}
-          key="3"
-          icon={<TagOutlined />}
-        >
-          Tags
-        </Menu.Item>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[]}>
+        {navigationItems.map((navigationItem, index) => (
+          <Menu.Item
+            key={index}
+            icon={navigationItem.icon}
+          >
+            <Link to={navigationItem.navigationPath}>
+              {navigationItem.text}
+            </Link>
+          </Menu.Item>
+        ))}
       </Menu>
     </Sider>
   );
