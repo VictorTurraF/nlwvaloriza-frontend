@@ -13,4 +13,15 @@ async function listAll (params: AxiosRequestConfig = {}) {
   }
 }
 
-export { listAll }
+async function showUser (userId: string, params: AxiosRequestConfig = {}) {
+  try {
+    const { data } = await client.get(`/api/users/${userId}`);
+    return data;
+  } catch (error) {
+    console.warn("Erro ao listar usuário específico");
+    console.warn(error);
+    return null;
+  }
+}
+
+export { listAll, showUser }
