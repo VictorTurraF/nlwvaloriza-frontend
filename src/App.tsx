@@ -3,14 +3,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./contexts/AuthContext";
-import ProfilePage from "./pages/ProfilePage";
+
+const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const ComplimentsPage = React.lazy(() => import("./pages/ComplimentsPage"));
+const TagsPage = React.lazy(() => import("./pages/TagsPage"));
+const UsersPage = React.lazy(() => import("./pages/UsersPage"));
+const AddNewTagPage = React.lazy(() => import("./pages/AddNewTagPage"));
 
 const DashboardLayout = React.lazy(() => import("./layouts/DashboardLayout"));
-const LoginPage = React.lazy(() => import("./pages/Login"));
-const ComplimentsPage = React.lazy(() => import("./pages/Compliments"));
-const TagsPage = React.lazy(() => import("./pages/Tags"));
-const UsersPage = React.lazy(() => import("./pages/Users"));
-const AddNewTagPage = React.lazy(() => import("./pages/AddNewTagPage"));
+const LoginPage = React.lazy(() => import("./pages/LoginPage"));
 
 function App() {
   return (
@@ -27,8 +28,9 @@ function App() {
                 </RequireAuth>
               }
             >
-              <Route path="me" element={<ProfilePage />} />
+              <Route index element={<UsersPage />} />
               <Route path="users" element={<UsersPage />} />
+              <Route path="me" element={<ProfilePage />} />
               <Route path="compliments" element={<ComplimentsPage />} />
               <Route path="tags">
                 <Route path="new" element={<AddNewTagPage />} />
