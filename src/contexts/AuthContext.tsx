@@ -1,12 +1,15 @@
 import { createContext, useEffect, useState } from "react";
 import { LoginCredentials } from "../http/auth";
-import * as authClient from "../http/auth";
-import Spinner from "../components/Spinner";
 import { HTMLElement } from "../types/components";
 import { message } from "antd";
 
+import Spinner from "../components/Spinner";
+
+import * as authClient from "../http/auth";
+import * as userClient from "../http/users";
+
 interface AuthContextData {
-  user: object | null;
+  user: any;
   isLogged: boolean;
   signIn: (credentials: LoginCredentials) => Promise<boolean>;
   signOut: () => void;
@@ -15,12 +18,12 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>(null!);
 
 function AuthProvider({ children }: HTMLElement) {
-  const [user, setUser] = useState<Object | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   async function signIn(credentials: LoginCredentials) {
     await authClient.getCSRF();
-    
+
     const user = await authClient.signIn(credentials, {
       onInvalidLogin: (response) => {
         message.error(response.data.message);
@@ -29,7 +32,7 @@ function AuthProvider({ children }: HTMLElement) {
 
     if (user) {
       setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user_id", user.id);
       return true;
     }
 
@@ -38,17 +41,31 @@ function AuthProvider({ children }: HTMLElement) {
 
   function signOut() {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("user_id");
   }
 
   useEffect(() => {
-    const storagedUser = localStorage.getItem("user");
+    async function fecthUser() {
+      const storagedUserId = localStorage.getItem("user_id");
 
-    if (storagedUser) {
-      setUser(JSON.parse(storagedUser));
+      if (!storagedUserId) {
+        signOut();
+        setIsLoading(false);
+        return;
+      }
+
+      const { data: loggedUser } = await userClient.showUser(storagedUserId);
+
+      if (loggedUser) {
+        setUser(loggedUser);
+      } else {
+        signOut();
+      }
+
+      setIsLoading(false);
     }
 
-    setIsLoading(false);
+    fecthUser();
   }, []);
 
   if (isLoading) {
