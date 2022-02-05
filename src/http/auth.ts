@@ -27,7 +27,7 @@ async function signIn(
 ) {
   try {
     const response = await client.post("/api/login", credentials);
-    return response;
+    return response.data;
   } catch (error: any) {
     if (error.response.status === 400) {
       callbacks?.onInvalidLogin && callbacks.onInvalidLogin(error.response);
