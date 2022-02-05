@@ -25,9 +25,9 @@ authenticatedClient.interceptors.request.use(
   }
 );
 
-const sanctumClient = axios.create({
+const withoutPathPrefixClient = axios.create({
   ...defaultClientConfig,
   baseURL: config.api.BASE_URL,
 });
 
-export { client, authenticatedClient, sanctumClient };
+export { client, authenticatedClient, withoutPathPrefixClient };
