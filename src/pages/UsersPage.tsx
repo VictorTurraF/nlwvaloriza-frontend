@@ -18,6 +18,7 @@ function UsersPage() {
   function mapApiValues(dataFromApi: any[]) {
     return dataFromApi.map((user) => {
       return {
+        key: user.id + user.name,
         name: user.name,
         email: user.email,
         isAdmin: user.is_admin,
