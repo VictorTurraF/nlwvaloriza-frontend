@@ -4,7 +4,7 @@ import { client } from "./client";
 
 async function listAll (params: AxiosRequestConfig = {}) {
   try {
-    const {data} = await client.get('/api/users', params); 
+    const {data} = await client.get('/users', params); 
     return data;
   } catch(error) {
     console.warn("Erro ao listar usuários");
@@ -15,7 +15,7 @@ async function listAll (params: AxiosRequestConfig = {}) {
 
 async function showUser (userId: string, params: AxiosRequestConfig = {}) {
   try {
-    const { data } = await client.get(`/api/users/${userId}`);
+    const { data } = await client.get(`/users/${userId}`);
     return data;
   } catch (error) {
     console.warn("Erro ao listar usuário específico");

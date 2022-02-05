@@ -1,12 +1,13 @@
 import axios, { AxiosRequestConfig } from "axios";
+import config from "../config";
 
 const defaultClientConfig: AxiosRequestConfig = {
-  baseURL: "http://localhost:8000",
+  baseURL: config.api.BASE_URL + config.api.PATH_PREFIX,
   timeout: 1000,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    Accept: "application/json",
   },
 };
 
@@ -24,4 +25,9 @@ authenticatedClient.interceptors.request.use(
   }
 );
 
-export { client, authenticatedClient };
+const sanctumClient = axios.create({
+  ...defaultClientConfig,
+  baseURL: config.api.BASE_URL,
+});
+
+export { client, authenticatedClient, sanctumClient };

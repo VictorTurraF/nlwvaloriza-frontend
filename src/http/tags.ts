@@ -7,11 +7,11 @@ export interface TagCreateRequest {
 }
 
 function listAll(config: AxiosRequestConfig) {
-  return client.get("/api/tags", config );
+  return client.get("/tags", config );
 }
 
 function create(tag: TagCreateRequest) {
-  return client.post("/api/tags", tag);
+  return client.post("/tags", tag);
 }
 
 export { listAll, create };

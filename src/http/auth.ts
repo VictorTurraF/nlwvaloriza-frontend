@@ -1,4 +1,4 @@
-import { client } from "./client";
+import { client, sanctumClient } from "./client";
 
 export interface LoginCredentials {
   email: string;
@@ -12,7 +12,7 @@ export interface LoginCallbacks {
 
 async function getCSRF() {
   try {
-    const response = await client.get("/sanctum/csrf-cookie");
+    const response = await sanctumClient.get("/sanctum/csrf-cookie");
     return response;
   } catch (error) {
     console.warn("Erro ao solicitar csrf token");
@@ -26,7 +26,7 @@ async function signIn(
   callbacks: LoginCallbacks = {}
 ) {
   try {
-    const response = await client.post("/api/login", credentials);
+    const response = await client.post("/login", credentials);
     return response.data;
   } catch (error: any) {
     if (error.response.status === 400) {
