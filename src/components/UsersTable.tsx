@@ -16,6 +16,7 @@ const columns: ColumnsType<User> = [
 ];
 
 export interface User {
+  key: string;
   name: string;
   email: string;
   isAdmin: boolean;
