@@ -6,7 +6,7 @@ function ProfilePage() {
   return (
     <Space direction="vertical">
       <Typography.Title level={4}>My Profile</Typography.Title>
-      <Descriptions title="User Info" bordered>
+      <Descriptions bordered>
         <Descriptions.Item label="Name">{user?.name}</Descriptions.Item>
         <Descriptions.Item label="Email">{user?.email}</Descriptions.Item>
         <Descriptions.Item label="Access Level">
