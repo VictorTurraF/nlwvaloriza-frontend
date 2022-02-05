@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space, Typography } from "antd";
 import * as React from "react";
 import { Tag, TagList } from "../components/TagList";
 import * as tagsClient from "../http/tags";
@@ -47,6 +47,7 @@ function TagsPage() {
 
   return (
     <Space style={{ width: "100%" }} direction="vertical">
+      <Typography.Title level={4}>Tags</Typography.Title>
       <Pagination
         current={currentPage}
         pageSize={pageSize}
