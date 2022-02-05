@@ -10,8 +10,6 @@ const columns: ColumnsType<User> = [
     dataIndex: "isAdmin",
     key: "isAdmin",
     render: (value) => {
-      console.log(value);
-
       return value ? "Yes" : "No";
     },
   },
