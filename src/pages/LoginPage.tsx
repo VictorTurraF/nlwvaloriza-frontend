@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Link } = Typography;
 
 function LoginPage() {
   const [isSigning, setIsSigning] = useState(false);
@@ -25,7 +25,7 @@ function LoginPage() {
 
     if (logginSucceed) {
       navigate(from, { replace: true });
-    } else { 
+    } else {
       setIsSigning(false);
     }
   }
@@ -93,10 +93,7 @@ function LoginPage() {
       </Card>
       <Typography style={{ textAlign: "center" }}>
         <Paragraph>
-          Don't have an account?{" "}
-          <Button type="link" style={{ padding: "0" }}>
-            Sign up
-          </Button>
+          Don't have an account? <Link href="/register">Sign up</Link>
         </Paragraph>
       </Typography>
     </div>
