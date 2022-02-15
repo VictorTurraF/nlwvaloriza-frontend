@@ -1,10 +1,27 @@
-import { Col, Row, Space, Typography } from "antd";
+import { Col, Row, Space, Typography, Button } from "antd";
 import ComplimentCard from "../components/ComplimentCard";
+import { SendOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 function ComplimentsPage() {
+  const navigate = useNavigate();
+
   return (
     <Space style={{ width: "100%" }} direction="vertical">
-      <Typography.Title level={4}>Compliments</Typography.Title>
+      <Row>
+        <Col flex="auto">
+          <Typography.Title level={4}>Received Compliments</Typography.Title>
+        </Col>
+        <Col>
+          <Button
+            type="dashed"
+            icon={<SendOutlined />}
+            onClick={() => navigate("new")}
+          >
+            Send a Compliment
+          </Button>
+        </Col>
+      </Row>
       <Row gutter={12}>
         <Col span={8}>
           <Space direction="vertical" style={{ width: "100%" }}>
