@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./contexts/AuthContext";
+import AddNewCompliment from "./pages/AddNewCompliment";
 
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
 const ComplimentsPage = React.lazy(() => import("./pages/ComplimentsPage"));
@@ -31,7 +32,10 @@ function App() {
               <Route index element={<UsersPage />} />
               <Route path="users" element={<UsersPage />} />
               <Route path="me" element={<ProfilePage />} />
-              <Route path="compliments" element={<ComplimentsPage />} />
+              <Route path="compliments">
+                <Route path="new" element={<AddNewCompliment />} />
+                <Route index element={<ComplimentsPage />} />
+              </Route>
               <Route path="tags">
                 <Route path="new" element={<AddNewTagPage />} />
                 <Route index element={<TagsPage />} />
