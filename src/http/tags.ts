@@ -6,8 +6,15 @@ export interface TagCreateRequest {
   color: string;
 }
 
-function listAll(config: AxiosRequestConfig) {
-  return client.get("/tags", config );
+async function listAll(config: AxiosRequestConfig = {}) {
+  try {
+    const response = await client.get("/tags", config );
+    return response
+  } catch (error) {
+    console.warn("Erro ao listar todas as tags")
+    console.warn(error)
+    return null
+  }
 }
 
 function create(tag: TagCreateRequest) {

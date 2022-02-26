@@ -1,12 +1,8 @@
 import { Space, Typography } from "antd";
 import * as React from "react";
 import { Tag, TagList } from "../components/TagList";
-import * as tagsClient from "../http/tags";
+import { listAll as listAllTags } from "../http/tags";
 import { Pagination } from "antd";
-
-export interface RequestParams {
-  query: Object;
-}
 
 function TagsPage() {
   const [tags, setTags] = React.useState<Tag[]>();
@@ -21,29 +17,23 @@ function TagsPage() {
   }
 
   React.useEffect(() => {
-    async function performTagsListingRequest() {
-      try {
-        const response = await tagsClient.listAll({ params: requestQuery });
-        return response.data;
-      } catch (error) {
-        console.warn("Erro ao listar tags");
-        console.warn(error);
+
+    async function requestTagsListing() {
+      const response = await listAllTags({ params: requestQuery });
+
+      if (!!response) {
+        const { data: { data: tags, meta }} = response
+        setTags(tags);
+        setTotalItems(meta.total);
+        setPageSize(meta.per_page);
       }
     }
 
-    async function fetchTags() {
-      const tags = await performTagsListingRequest();
-
-      if (!!tags) {
-        console.log(tags);
-        setTags(tags.data);
-        setTotalItems(tags.meta.total);
-        setPageSize(tags.meta.per_page);
-      }
-    }
-
-    fetchTags();
+    requestTagsListing();
   }, [requestQuery]);
+
+  console.log(pageSize);
+  console.log(currentPage);
 
   return (
     <Space style={{ width: "100%" }} direction="vertical">
