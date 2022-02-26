@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export interface DebouncerConfig<T> {
   valueToBeDebounced: T;
