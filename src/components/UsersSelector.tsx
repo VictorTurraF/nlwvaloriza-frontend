@@ -23,11 +23,17 @@ function UsersSelector() {
   }
 
   async function handleDebouncedUsersSearch(debouncedSearchValue: string) {
-    const { data: users } = await listAllUsers({ params: { simplified: true } });
+    const { data: users, meta } = await listAllUsers({
+      params: {
+        simplified: true,
+        "filter[name]": debouncedSearchValue,
+      },
+    });
 
     if (!!users) {
       const options = mapUsersToOptions(users);
       setUserOptions(options);
+      setTotalOfPages(meta.last_page);
     }
 
     setIsSearching(false);
@@ -50,6 +56,14 @@ function UsersSelector() {
     const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
     if (bottom && page < totalOfPages) {
       setPage(() => page + 1);
+    }
+  }
+
+  function handleDropdownVisibleChange(isVisible: any) {
+    if (!isVisible) {
+      setSearchTerm("");
+      setPage(1);
+      setTotalOfPages(0);
     }
   }
 
@@ -77,6 +91,7 @@ function UsersSelector() {
       notFoundContent={<Spinner />}
       onPopupScroll={handlePopupScroll}
       loading={isSearching}
+      onDropdownVisibleChange={handleDropdownVisibleChange}
     >
       {userOptions.map((userOption) => (
         <Select.Option key={userOption.value} value={userOption.value}>

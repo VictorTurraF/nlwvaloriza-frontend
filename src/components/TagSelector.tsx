@@ -10,26 +10,11 @@ export interface Option {
 }
 
 function TagSelector() {
-  const [tagOptions, setTagOptions] = useState<Option[]>([]);
-  const [tagSearchTerm, setTagSearchTerm] = useState("");
+  const [options, setOptions] = useState<Option[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [page, setPage] = useState(1);
   const [totalOfPages, setTotalOfPages] = useState(0);
-
-  useEffect(() => {
-    async function listNextPageAndAppendToOptions() {
-      const response = await listAllTags({ params: { page } });
-
-      if (!!response) {
-        const {
-          data: { data: tags },
-        } = response;
-        setTagOptions((prev) => [...prev, ...mapTagsToOptions(tags)]);
-      }
-    }
-
-    listNextPageAndAppendToOptions();
-  }, [page]);
 
   function handleTagPopupScroll(e: any) {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
@@ -39,28 +24,37 @@ function TagSelector() {
   }
 
   function handleTagSearch(value: string) {
-    setTagOptions([]);
-    setTagSearchTerm(value);
+    setOptions([]);
+    setSearchTerm(value);
+  }
+
+  function handleDropdownVisibleChange(isVisible: any) {
+    if (!isVisible) {
+      setSearchTerm("");
+      setPage(1);
+      setTotalOfPages(0);
+    }
   }
 
   useEffect(() => {
     async function requestTagsListing() {
-      const response = await listAllTags();
+      const response = await listAllTags({ params: { page } });
       if (!!response) {
         const {
           data: { data: tags, meta },
         } = response;
-        setTagOptions(mapTagsToOptions(tags));
+        const options = mapTagsToOptions(tags)
+        setOptions(prev => [...prev, ...options]);
         setTotalOfPages(meta.last_page);
       }
     }
 
     requestTagsListing();
-  }, []);
+  }, [page]);
 
   useDebouce({
     onTimeOut: useCallback(handleDebouncedTagsSearch, []),
-    valueToBeDebounced: tagSearchTerm,
+    valueToBeDebounced: searchTerm,
     timeoutInSeconds: 0.5,
   });
 
@@ -73,9 +67,10 @@ function TagSelector() {
 
     if (!!response) {
       const {
-        data: { data: tags },
+        data: { data: tags, meta },
       } = response;
-      setTagOptions(mapTagsToOptions(tags));
+      setOptions(mapTagsToOptions(tags));
+      setTotalOfPages(meta.last_page);
     }
 
     setIsSearching(false);
@@ -97,9 +92,10 @@ function TagSelector() {
       onSearch={handleTagSearch}
       onPopupScroll={handleTagPopupScroll}
       notFoundContent={<Spinner />}
+      onDropdownVisibleChange={handleDropdownVisibleChange}
       loading={isSearching}
     >
-      {tagOptions.map((tagOption) => (
+      {options.map((tagOption) => (
         <Select.Option key={tagOption.value} value={tagOption.value}>
           {tagOption.label}
         </Select.Option>
