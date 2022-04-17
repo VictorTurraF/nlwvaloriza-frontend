@@ -9,7 +9,7 @@ export interface Option {
   label: string;
 }
 
-function TagSelector() {
+function TagSelector(props: any) {
   const [options, setOptions] = useState<Option[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -94,6 +94,7 @@ function TagSelector() {
       notFoundContent={<Spinner />}
       onDropdownVisibleChange={handleDropdownVisibleChange}
       loading={isSearching}
+      {...props}
     >
       {options.map((tagOption) => (
         <Select.Option key={tagOption.value} value={tagOption.value}>

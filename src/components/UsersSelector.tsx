@@ -9,7 +9,7 @@ export interface Option {
   label: string;
 }
 
-function UsersSelector() {
+function UsersSelector(props: any) {
   const [userOptions, setUserOptions] = useState<Option[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -92,6 +92,7 @@ function UsersSelector() {
       onPopupScroll={handlePopupScroll}
       loading={isSearching}
       onDropdownVisibleChange={handleDropdownVisibleChange}
+      {...props}
     >
       {userOptions.map((userOption) => (
         <Select.Option key={userOption.value} value={userOption.value}>
