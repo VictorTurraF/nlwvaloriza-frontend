@@ -7,6 +7,7 @@ import * as complimentsClient from "../http/compliments";
 import { Arr } from "../helpers/array";
 
 export interface Compliment {
+  id: string;
   message: string;
   authorName: string;
   tags: Tag[];
@@ -19,6 +20,7 @@ function ComplimentsPage() {
   function mapApiValues(valuesFromApi: any[]) {
     return valuesFromApi.map((item) => {
       return {
+        id: item.id,
         message: item.message,
         authorName: item.author.name,
         tags: (item.tags || []).map((tag: any) => {
@@ -71,6 +73,7 @@ function ComplimentsPage() {
             {!!fisrtComplimentsChunk &&
               fisrtComplimentsChunk.map((compliment: Compliment) => (
                 <ComplimentCard
+                  key={compliment.id} 
                   message={`"${compliment.message}"`}
                   authorImageUrl=""
                   authorName={compliment.authorName}
@@ -84,6 +87,7 @@ function ComplimentsPage() {
             {!!secondComplimentsChunk &&
               secondComplimentsChunk.map((compliment: Compliment) => (
                 <ComplimentCard
+                  key={compliment.id}
                   message={`"${compliment.message}"`}
                   authorImageUrl=""
                   authorName={compliment.authorName}
@@ -97,6 +101,7 @@ function ComplimentsPage() {
             {!!thirdComplimentsChunk &&
               thirdComplimentsChunk.map((compliment: Compliment) => (
                 <ComplimentCard
+                  key={compliment.id}
                   message={`"${compliment.message}"`}
                   authorImageUrl=""
                   authorName={compliment.authorName}
