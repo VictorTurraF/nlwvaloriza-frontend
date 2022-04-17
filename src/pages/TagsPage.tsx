@@ -32,9 +32,6 @@ function TagsPage() {
     requestTagsListing();
   }, [requestQuery]);
 
-  console.log(pageSize);
-  console.log(currentPage);
-
   return (
     <Space style={{ width: "100%" }} direction="vertical">
       <Typography.Title level={4}>Tags</Typography.Title>

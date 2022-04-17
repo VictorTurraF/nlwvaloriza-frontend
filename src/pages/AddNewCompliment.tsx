@@ -7,8 +7,6 @@ function AddNewCompliment() {
   const navigate = useNavigate();
 
   async function requestComplimentCreation(complimentCreationPayload: Object) {
-    console.log(complimentCreationPayload);
-
     try {
       const response = await createCompliment(complimentCreationPayload);
       return response;
@@ -25,8 +23,6 @@ function AddNewCompliment() {
       receiver_user_id: form.receiver_user_id.value,
       tags: form?.tags || [],
     });
-
-    console.log(response);
 
     if (!!response && response.status === 201) {
       message.success("Compliment successfuly created");
