@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./contexts/AuthContext";
-import AddNewCompliment from "./pages/AddNewCompliment";
+import AddNewCompliment from "./pages/AddNewComplimentPage";
+import RootSplashPage from "./pages/RootPage";
 
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
 const ComplimentsPage = React.lazy(() => import("./pages/ComplimentsPage"));
@@ -20,7 +21,8 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<Spinner />}>
           <Routes>
-            <Route path="login" element={<LoginPage />} />
+            <Route index element={<RootSplashPage />} />
+            <Route path="signin" element={<LoginPage />} />
             <Route
               path="panel"
               element={

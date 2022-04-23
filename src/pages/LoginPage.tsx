@@ -72,7 +72,7 @@ function LoginPage() {
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
 
-              <a className="login-form-forgot" href="/login/recover">
+              <a className="login-form-forgot" href="/signin/recover">
                 Forgot password
               </a>
             </Form.Item>
