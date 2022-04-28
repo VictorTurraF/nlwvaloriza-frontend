@@ -35,7 +35,7 @@ function RootSplashPage() {
   const navigate = useNavigate();
 
   if (auth.isLogged) {
-    <Navigate to="/panel" />;
+    return <Navigate to="/panel" />;
   }
 
   return (
